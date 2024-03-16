@@ -103,11 +103,22 @@ namespace runtime {
     ClassInstance::ClassInstance(const Class& cls) : class_(cls) {
     }
 
-    ObjectHolder ClassInstance::Call(const std::string& /*method*/,
-        const std::vector<ObjectHolder>& /*actual_args*/,
-        Context& /*context*/) {
-        // Заглушка. Реализуйте метод самостоятельно.
-        throw std::runtime_error("Not implemented"s);
+    ObjectHolder ClassInstance::Call(const std::string& method,
+        const std::vector<ObjectHolder>& actual_args,
+        Context& context) {
+
+        if (!this->HasMethod(method, actual_args.size())) {
+            throw std::runtime_error("No methods");
+        }
+        auto ptr_method = class_.GetMethod(method);
+        Closure cls;
+        cls["self"] = ObjectHolder::Share(*this);
+
+        for (size_t i = 0; i < ptr_method->formal_params.size(); ++i) {
+            cls[ptr_method->formal_params[i]] = actual_args[i];
+        }
+
+        return ptr_method->body->Execute(cls, context);
     }
 
     Class::Class(std::string /*name*/, std::vector<Method> /*methods*/, const Class* /*parent*/) {
