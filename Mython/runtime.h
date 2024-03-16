@@ -140,7 +140,7 @@ namespace runtime {
         [[nodiscard]] const Method* GetMethod(const std::string& name) const;
 
         // Возвращает имя класса
-        [[nodiscard]] const std::string& GetName() const;
+        const std::string& GetName() const;
 
         // Выводит в os строку "Class <имя класса>", например "Class cat"
         void Print(std::ostream& os, Context& context) override;
@@ -149,7 +149,7 @@ namespace runtime {
         std::string name_;
         std::vector<Method> methods_;
         const Class* parent_;
-        std::unordered_map<std::string_view, const Method*>name_method_ptr_;
+        std::unordered_map<std::string_view, const Method*> name_method_ptr_;
     };
 
     // Экземпляр класса
