@@ -84,15 +84,22 @@ namespace ast {
         return object;
     }
 
-    MethodCall::MethodCall(std::unique_ptr<Statement> /*object*/, std::string /*method*/,
-        std::vector<std::unique_ptr<Statement>> /*args*/) {
-        // Заглушка. Реализуйте метод самостоятельно
+    MethodCall::MethodCall(std::unique_ptr<Statement> object, std::string method,
+        std::vector<std::unique_ptr<Statement>> args)
+        : object_(move(object)), method_(move(method)), args_(move(args)) {
     }
 
-    ObjectHolder MethodCall::Execute(Closure& /*closure*/, Context& /*context*/) {
-        // Заглушка. Реализуйте метод самостоятельно
-        return {};
+    ObjectHolder MethodCall::Execute(Closure& closure, Context& context) {
+        auto ptr_class = object_->Execute(closure, context).TryAs<runtime::ClassInstance>();
+        std::vector<runtime::ObjectHolder> args;
+
+        for (const auto& arg : args_) {
+            args.push_back(std::move(arg->Execute(closure, context)));
+        }
+
+        return ptr_class->Call(method_, args, context);
     }
+
 
     ObjectHolder Stringify::Execute(Closure& /*closure*/, Context& /*context*/) {
         // Заглушка. Реализуйте метод самостоятельно

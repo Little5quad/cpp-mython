@@ -128,6 +128,7 @@ print y.value
 }  // namespace
 
 int main() {
+    setlocale(LC_ALL, "rus");
     try {
         TestAll();
 
