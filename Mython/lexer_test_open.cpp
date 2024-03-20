@@ -4,9 +4,6 @@
 #include <sstream>
 #include <string>
 
-
-#include "log_duratuin.h"
-
 using namespace std;
 
 namespace parse {
@@ -357,7 +354,6 @@ abc#
     }  // namespace
 
     void RunOpenLexerTests(TestRunner& tr) {
-        LOG_DURATION("test lexer");
         RUN_TEST(tr, parse::TestSimpleAssignment);
         RUN_TEST(tr, parse::TestKeywords);
         RUN_TEST(tr, parse::TestNumbers);

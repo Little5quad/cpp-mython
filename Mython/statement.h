@@ -144,7 +144,7 @@ namespace ast {
         explicit UnaryOperation(std::unique_ptr<Statement> argument) : argument_(move(argument)) {
         }
 
-    private:
+    protected:
         std::unique_ptr<Statement> argument_;
     };
 

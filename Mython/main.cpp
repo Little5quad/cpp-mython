@@ -3,6 +3,7 @@
 #include "runtime.h"
 #include "statement.h"
 #include "test_runner_p.h"
+#include "log_duratuin.h"
 
 #include <iostream>
 
@@ -112,6 +113,7 @@ print y.value
     }
 
     void TestAll() {
+        LOG_DURATION("Test all");
         TestRunner tr;
         parse::RunOpenLexerTests(tr);
         runtime::RunObjectHolderTests(tr);
